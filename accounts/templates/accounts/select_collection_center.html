@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Select Collection Center | Buy Online Store{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Select a Collection Center</h2>
+    
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="collection_center">Choose a Collection Center:</label>
+                    <select class="form-control" id="collection_center" name="collection_center" required>
+                        <option value="" disabled selected>-- Select Collection Center --</option>
+                        {% for center in collection_centers %}
+                            <option value="{{ center.id }}">{{ center.centerName }} ({{ center.town }}, {{ center.county }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-block mt-4">Select</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

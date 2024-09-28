@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+<p><strong>Description:</strong> {{ product.description }}</p>
+<p><strong>Price:</strong> {{ product.price }}</p>
+<p><strong>Store:</strong> {{ product.store.storeName }}</p>
+<p><strong>Category:</strong> {{ product.category }}</p>
+
+<a href="{% url 'update' product.id %}" class="btn btn-warning">Edit</a>
+<a href="{% url 'all_products' %}" class="btn btn-secondary">Back to All Products</a>
+{% endblock %}

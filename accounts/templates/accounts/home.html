@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | Buy Online Store{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Background Image -->
+<div class="jumbotron jumbotron-fluid text-center text-light" style="background: url('https://static.vecteezy.com/system/resources/thumbnails/012/853/874/small/black-shopping-paper-bags-on-black-background-for-black-friday-shopping-sale-concept-free-photo.jpg') no-repeat center center; background-size: cover; min-height: 60vh; margin-bottom: 0;">
+    <div class="container py-5">
+        <h1 class="display-3">Welcome to Buy Online Store</h1>
+        <p class="lead">Discover a wide variety of products from trusted sellers. Sign up today and start shopping!</p>
+        {% if user.is_authenticated %}
+        <a class="btn btn-light btn-lg" href="#" role="button">Go to Store</a>
+        {% else %}
+        <a class="btn btn-light btn-lg" href="{% url 'register' %}" role="button">Get started</a>
+        <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Intro Section -->
+<div class="container text-center my-5">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card border-light shadow-sm">
+                <img src="https://queue-it.com/media/ppcp1twv/product-drop.jpg" class="card-img-top" alt="Wide Range of Products">
+                <div class="card-body">
+                    <h5 class="card-title">Wide Range of Products</h5>
+                    <p class="card-text">Find everything you need from our wide selection of products, from electronics to fashion.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card border-light shadow-sm">
+                <img src="https://www.lightico.com/wp-content/uploads/2020/12/IMAGES-FOR-BLOGS-13-1.png" class="card-img-top" alt="Secure Payments">
+                <div class="card-body">
+                    <h5 class="card-title">Secure Payments</h5>
+                    <p class="card-text">Shop with confidence with our safe and secure payment options.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card border-light shadow-sm">
+                <img src="https://www.shipmercury.com/getmedia/9548634d-3a6d-4747-a0c1-7efca10f043b/fastest-shipping-method-ss-1609947532-1100x733.jpg" class="card-img-top" alt="Fast Shipping">
+                <div class="card-body">
+                    <h5 class="card-title">Fast Shipping</h5>
+                    <p class="card-text">Get your orders delivered to your doorstep quickly with our reliable shipping partners.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="text-center my-5">
+    <h4>Join Thousands of Happy Customers Today</h4>
+    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg mt-3">Create Account</a>
+</div>
+{% endblock %}
