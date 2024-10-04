@@ -122,13 +122,15 @@
                     {% for product in products %}
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ product.name }}</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                     <p class="card-text">Price: Ksh {{ product.price }}</p>
-                                    <a href="#" class="btn btn-primary">Buy Now</a>
-                                </div>
+                                    <div class="d-flex justify-content-between mt-auto">
+                                        <a href="#" class="btn btn-primary">Buy Now</a>
+                                        <a href="#" class="btn btn-secondary">Add to Cart</a>
+                                    </div>                                </div>
                             </div>
                         </div>
                     {% empty %}
