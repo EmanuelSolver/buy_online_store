@@ -15,22 +15,20 @@
             </div>
             
             <!-- The collapsible content -->
+            <!-- Categories section -->
             <div class="collapse d-md-block" id="categoriesCollapse">
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header">
                         <h4>Categories</h4>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Smart Phones</li>
-                        <li class="list-group-item">Electronics</li>
-                        <li class="list-group-item">Fashion</li>
-                        <li class="list-group-item">Home Appliances</li>
-                        <li class="list-group-item">Beauty Products</li>
-                        <li class="list-group-item">Baby Products</li>
-                        <li class="list-group-item">Furnitures</li>
+                        {% for category in categories %}
+                            <li class="list-group-item">{{ category.name }}</li>
+                        {% endfor %}
                     </ul>
                 </div>
             </div>
+
         </div>
         
 
@@ -115,42 +113,31 @@
         </div>
     
 
-        {% comment %} sections {% endcomment %}
-        <div class="col-md-12">
-                        <!-- Flash Sale Section -->
-                        <div class="mb-5">
-                            <h3>Flash Sale</h3>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <img src="https://via.placeholder.com/200x150" class="card-img-top" alt="Flash Sale 1">
-                                        <div class="card-body">
-                                            <h5 class="card-title">Discounted Item</h5>
-                                            <p class="card-text">Get this item at a great price!</p>
-                                            <a href="#" class="btn btn-primary">Shop Now</a>
-                                        </div>
-                                    </div>
+        <div class="container">
+            <!-- Loop through categories -->
+            {% for category, products in category_products.items %}
+                <h3>{{ category.name }}</h3> <!-- Category name -->
+                <div class="row">
+                    <!-- Loop through products in the current category -->
+                    {% for product in products %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ product.name }}</h5>
+                                    <p class="card-text">{{ product.description }}</p>
+                                    <p class="card-text">Price: Ksh {{ product.price }}</p>
+                                    <a href="#" class="btn btn-primary">Buy Now</a>
                                 </div>
-                                <!-- Add more flash sale items here -->
                             </div>
                         </div>
-            
-                        <!-- Hot Category Section -->
-                        <div class="mb-5">
-                            <h3>Hot Categories</h3>
-                            <div class="row">
-                                <!-- Add hot category items here -->
-                            </div>
-                        </div>
-            
-                        <!-- New Arrival Section -->
-                        <div class="mb-5">
-                            <h3>New Arrivals</h3>
-                            <div class="row">
-                                <!-- Add new arrival items here -->
-                            </div>
-                        </div>
+                    {% empty %}
+                        <p>No products available in this category.</p>
+                    {% endfor %}
+                </div>
+            {% endfor %}
         </div>
+        
     </div>
 </div>
 {% endblock %}
