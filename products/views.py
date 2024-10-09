@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
-from .models import Product, Category
+from .models import Product, Category, Cart, CartItem
 from accounts.models import Store
 from .forms import ProductForm  
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, get_object_or_404
+from django.http import JsonResponse
 
 def all_products(request):
     products = Product.objects.all()  # Fetch all products
@@ -48,8 +51,56 @@ def update(request, product_id):
 
     return render(request, 'products/edit_form.html', {'form': form, 'product': product})
 
+
 def delete(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST':
         product.delete()
         return redirect('all_products')
+
+def get_cart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    return cart
+
+@login_required
+def add_to_cart(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    cart, created = Cart.objects.get_or_create(user=request.user)
+
+    # Create or update cart item
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+    
+    if not created:
+        cart_item.quantity += 1  # Increase quantity if item already exists
+        cart_item.save()
+
+    print(f"Added {product.name} to the cart!")  # Debugging statement
+    return redirect('landing-home') 
+
+@login_required
+def view_cart(request):
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    items = cart.cartitem_set.all()  # Get all cart items; make sure to use related name
+
+    print(f"\nCart for {request.user.username}:")
+    print("Cart items:", items)  # Debugging statement
+
+    return render(request, 'cart/view_cart.html', {'cart': cart, 'items': items})
+
+
+def update_cart_item(request, item_id, action):
+    cart_item = get_object_or_404(CartItem, id=item_id)
+    
+    if action == 'increase':
+        cart_item.quantity += 1
+    elif action == 'decrease' and cart_item.quantity > 1:
+        cart_item.quantity -= 1
+    cart_item.save()
+    
+    return redirect('view_cart')
+
+def remove_from_cart(request, item_id):
+    cart_item = get_object_or_404(CartItem, id=item_id)
+    cart_item.delete()
+    
+    return redirect('view_cart')

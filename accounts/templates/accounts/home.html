@@ -9,7 +9,7 @@
         <h1 class="display-3">Welcome to Buy Online Store</h1>
         <p class="lead">Discover a wide variety of products from trusted sellers. Sign up today and start shopping!</p>
         {% if user.is_authenticated %}
-        <a class="btn btn-light btn-lg" href="#" role="button">Go to Store</a>
+        <a class="btn btn-light btn-lg" href="{% url 'landing-home' %}" role="button">Go to Store</a>
         {% else %}
         <a class="btn btn-light btn-lg" href="{% url 'register' %}" role="button">Get started</a>
         <a class="btn btn-primary btn-lg" href="{% url 'login' %}" role="button">Login</a>
