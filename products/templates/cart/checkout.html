@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load cart_filters %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    {% if items %}
+        <div class="card shadow-lg p-4 bg-light">
+            <!-- Card Header with Title -->
+            <div class="card-header text-white bg-primary">
+                <h2 class="text-center mb-0">Checkout</h2>
+            </div>
+
+            <!-- Cart Summary Section -->
+            <h4 class="text-center text-secondary my-3">Order Summary</h4>
+            <table class="table table-hover table-bordered">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th>Product</th>
+                        <th>Unit Price</th>
+                        <th>Quantity</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>Ksh {{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>Ksh {{ item.product.price|multiply:item.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Pricing Breakdown -->
+            <div class="d-flex justify-content-between mb-2 text-muted">
+                <p><strong>Subtotal:</strong></p>
+                <p>Ksh {{ items|sum_price }}</p>
+            </div>
+            <div class="d-flex justify-content-between mb-2 text-muted">
+                <p><strong>Shipping Fee:</strong></p>
+                <p>Ksh 149</p>
+            </div>
+            <div class="d-flex justify-content-between mb-3 text-dark">
+                <h5><strong>Total:</strong></h5>
+                <h5><strong>Ksh {{ items|sum_price|add:149 }}</strong></h5>
+            </div>
+
+            <!-- Collection Center Selection -->
+            {% if available_centers %}
+                <h4 class="text-center text-secondary my-3">Select a Collection Center</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="collection_center" class="font-weight-bold">Collection Center:</label>
+                        <select name="collection_center" id="collection_center" class="form-control">
+                            {% for center in available_centers %}
+                            <option value="{{ center.id }}">{{ center.centerName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary mt-2">Select Collection Center</button>
+                    </div>
+                </form>
+            {% else %}
+                <!-- Show the selected collection center -->
+                <div class="d-flex justify-content-around mt-4 bg-light p-3 rounded">
+                    <h5 class="font-weight-bold">Collection Center:</h5>
+                    <p>{{ collection_center.centerName }}</p>
+                </div>
+            {% endif %}
+
+            <!-- Proceed to Payment Button -->
+            <div class="text-center mt-4">
+                <form method="post" action="{% url 'process_payment' total=items|sum_price|add:149 %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success btn-lg">Proceed to Payment</button>
+                </form>
+            </div>
+
+            
+        </div>
+
+    {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            Your cart is empty. Please add items to your cart.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

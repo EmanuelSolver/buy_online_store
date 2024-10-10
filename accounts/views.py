@@ -79,7 +79,8 @@ def dashboard(request):
         'collection_centers': collection_centers,
     })
     
-  # Fetch all approved collection centers   
+      
+# Fetch all approved collection centers   
 def select_collection_center(request):
     collection_centers = CollectionCenter.objects.filter(approved=True)  
     

@@ -1,5 +1,9 @@
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -11,6 +15,19 @@ SECRET_KEY = 'django-insecure-40vu$*(3&=4&oyu68eh7ty7d*$-_8(9$ib%o9n+_y5&9tff!b-
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+# M-Pesa API credentials
+CONSUMER_KEY = os.getenv('CONSUMER_KEY')
+CONSUMER_SECRET = os.getenv('CONSUMER_SECRET')
+PASS_KEY = os.getenv('PASS_KEY')
+PARTY_A = os.getenv('PARTY_A')
+PARTY_B = os.getenv('PARTY_B')
+
+BUSINESS_SHORT_CODE = os.getenv('BUSINESS_SHORT_CODE') 
+BUSINESS_ACCOUNT_NO = os.getenv('BUSINESS_ACCOUNT_NO')
+TOKEN_ACCESS_URL = os.getenv('TOKEN_ACCESS_URL')
+PROCESS_REQUEST_URL = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+
 
 
 # Application definition

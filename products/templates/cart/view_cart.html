@@ -45,7 +45,7 @@
     <!-- Total and Checkout Button in the same row -->
     <div class="d-flex justify-content-between align-items-center my-3">
         <p class="fw-bold mb-0">Total: Ksh {{ items|sum_price }}</p>  <!-- Total price method -->
-        <a href="#" class="btn btn-success btn-lg">Checkout</a>
+        <a href="{% url 'checkout' %}" class="btn btn-success btn-lg">Checkout</a>
     </div>
 
     {% else %}
